@@ -1,5 +1,7 @@
 import React, { useState } from "react";
-import HumanModel from "./HumanModel";
+import { Canvas } from "@react-three/fiber";
+import { OrbitControls } from "@react-three/drei";
+import Human from "./Human";
 
 export default function App() {
   const [params, setParams] = useState({
@@ -18,7 +20,7 @@ export default function App() {
 
   return (
     <div style={{ textAlign: "center" }}>
-      <h1>3D Human Model Generator</h1>
+      <h1>3D Human Model Generator (React Three Fiber)</h1>
       <div style={{ marginBottom: "10px" }}>
         <label>
           Height (cm):{" "}
@@ -38,26 +40,14 @@ export default function App() {
             onChange={handleChange}
           />
         </label>
-        <label>
-          Torso Length (cm):{" "}
-          <input
-            type="number"
-            name="torso"
-            value={params.torso}
-            onChange={handleChange}
-          />
-        </label>
-        <label>
-          Leg Length (cm):{" "}
-          <input
-            type="number"
-            name="legs"
-            value={params.legs}
-            onChange={handleChange}
-          />
-        </label>
       </div>
-      <HumanModel {...params} />
+
+      <Canvas style={{ width: "800px", height: "600px" }} camera={{ position: [0, 2, 5] }}>
+        <ambientLight />
+        <directionalLight position={[5, 5, 5]} />
+        <Human {...params} />
+        <OrbitControls />
+      </Canvas>
     </div>
   );
 }
